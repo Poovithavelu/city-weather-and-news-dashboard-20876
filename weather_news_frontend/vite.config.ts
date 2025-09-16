@@ -13,9 +13,7 @@ export default defineConfig({
     // Force the dev server to listen on 0.0.0.0:3000 for containerized environments
     host: '0.0.0.0',
     port: 3000,
-    strictPort: true,
-    // Allow orchestrator preview host
-    allowedHosts: ['vscode-internal-19452-qa.qa01.cloud.kavia.ai']
+    strictPort: true
   },
   preview: {
     host: '0.0.0.0',

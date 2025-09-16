@@ -2,6 +2,11 @@
 
 This is a Vite + React + TypeScript app styled with TailwindCSS.
 
+## Requirements
+
+- Node.js >= 20.19 (or >= 22.12). Vite 7 requires a modern Node LTS. Older Node versions will fail to start the dev server.
+- This project uses ESM ("type": "module") in package.json.
+
 ## Scripts
 
 - `npm start` - start dev server (Vite, binds to 0.0.0.0:3000)
@@ -36,3 +41,4 @@ No secrets are hard-coded in code.
 
 - TailwindCSS is configured via `tailwind.config.js` and `postcss.config.js`.
 - The UI follows a modern, card-based layout with a light theme per the project style guide.
+- If you see a Node version error on start, upgrade Node to the required version and retry.
