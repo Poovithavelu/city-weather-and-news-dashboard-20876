@@ -25,10 +25,14 @@ export function getEnv(): Required<Env> {
     (import.meta as any).env.REACT_APP_NEWS_API_KEY;
 
   if (!OW) {
-    console.warn('Missing OPENWEATHER API key in environment variables.');
+    console.warn(
+      'Missing OpenWeatherMap API key. Set VITE_OPENWEATHER_API_KEY in your environment variables.'
+    );
   }
   if (!NEWS) {
-    console.warn('Missing NEWS API key in environment variables.');
+    console.warn(
+      'Missing NewsAPI key. Set VITE_NEWS_API_KEY in your environment variables.'
+    );
   }
 
   return {

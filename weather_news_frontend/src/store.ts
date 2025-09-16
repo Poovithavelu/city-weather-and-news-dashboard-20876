@@ -45,6 +45,12 @@ export const useAppStore = create<State>((set, get) => ({
     set({ loading: true, error: undefined });
     try {
       const { OPENWEATHER_API_KEY, NEWS_API_KEY } = getEnv();
+      
+      if (!OPENWEATHER_API_KEY || !NEWS_API_KEY) {
+        throw new Error(
+          'API keys not configured. Please set VITE_OPENWEATHER_API_KEY and VITE_NEWS_API_KEY in your environment.'
+        );
+      }
 
       const weatherReq = axios.get(
         `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
