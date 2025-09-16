@@ -48,3 +48,13 @@ No secrets are hard-coded in code.
 - TailwindCSS is configured via `tailwind.config.js` and `postcss.config.js`.
 - The UI follows a modern, card-based layout with a light theme per the project style guide.
 - If you see a Node version error on start, upgrade Node to the required version and retry.
+
+## Dependency installation note (CI)
+
+In CI environments where Node < 20.19 is present (e.g., Node 18), you may see engine warnings during `npm install`. The dependencies can still be installed for lockfile resolution using:
+
+```
+npm install --no-audit --no-fund --legacy-peer-deps --engine-strict=false
+```
+
+However, to run and develop reliably (Vite 7 + React 19), upgrade the runtime to Node >= 20.19 (or >= 22.12) and re-run a plain `npm install` to avoid engine warnings.
