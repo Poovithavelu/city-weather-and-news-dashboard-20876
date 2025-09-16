@@ -107,17 +107,41 @@ export const useAppStore = create<State>((set, get) => ({
     } catch (error: unknown) {
       console.error(error);
       const err = error as Error & {
+        message?: string;
         response?: {
+          status?: number;
+          statusText?: string;
           data?: {
             message?: string;
+            error?: string;
+            status?: string | number;
+            code?: string | number;
           };
         };
+        request?: unknown;
       };
+
+      // Try to derive a meaningful message
+      const status = err?.response?.status;
+      const statusText = err?.response?.statusText;
+      const dataMsg =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        (typeof err?.message === 'string' ? err.message : undefined);
+
+      let finalMsg = 'Failed to fetch data. Please try again later.';
+      if (status) {
+        finalMsg = `Request failed${statusText ? ` (${statusText})` : ''} with status ${status}.`;
+        if (dataMsg) {
+          finalMsg += ` Details: ${dataMsg}`;
+        }
+      } else if (dataMsg) {
+        finalMsg = dataMsg;
+      }
+
       set({
         loading: false,
-        error:
-          err?.response?.data?.message ||
-          'Failed to fetch data. Please try again later.'
+        error: finalMsg
       });
     }
   }
