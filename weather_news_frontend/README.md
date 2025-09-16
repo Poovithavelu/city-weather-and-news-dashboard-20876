@@ -4,9 +4,12 @@ This is a Vite + React + TypeScript app styled with TailwindCSS.
 
 ## Scripts
 
-- `npm run dev` - start dev server
+- `npm start` - start dev server (Vite)
+- `npm run dev` - start dev server (alias)
 - `npm run build` - build for production
 - `npm run preview` - preview production build
+
+Dev server listens by default on port 5173 (configured in `vite.config.ts` with host: true). Your orchestrator may proxy to port 3000 externally.
 
 ## Environment variables
 
