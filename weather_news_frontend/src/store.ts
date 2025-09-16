@@ -25,6 +25,27 @@ type State = {
   search: (c?: string) => Promise<void>;
 };
 
+interface OpenWeatherResponse {
+  name: string;
+  main: {
+    temp: number;
+  };
+  weather?: Array<{
+    main: string;
+    icon: string;
+  }>;
+}
+
+interface NewsAPIResponse {
+  articles?: Array<{
+    title: string;
+    url: string;
+    source?: {
+      name: string;
+    };
+  }>;
+}
+
 // PUBLIC_INTERFACE
 /**
  * App state store: manages city input, loading, error, weather and news.
@@ -52,13 +73,13 @@ export const useAppStore = create<State>((set, get) => ({
         );
       }
 
-      const weatherReq = axios.get(
+      const weatherReq = axios.get<OpenWeatherResponse>(
         `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(
           city
         )}&appid=${OPENWEATHER_API_KEY}&units=metric`
       );
 
-      const newsReq = axios.get(
+      const newsReq = axios.get<NewsAPIResponse>(
         `https://newsapi.org/v2/everything?q=${encodeURIComponent(
           city
         )}&language=en&pageSize=5&apiKey=${NEWS_API_KEY}&sortBy=publishedAt`
@@ -75,7 +96,7 @@ export const useAppStore = create<State>((set, get) => ({
       };
 
       const news: NewsItem[] =
-        n.data.articles?.map((a: any) => ({
+        n.data.articles?.map(a => ({
           title: a.title,
           url: a.url,
           source: a.source?.name
@@ -83,12 +104,19 @@ export const useAppStore = create<State>((set, get) => ({
 
       localStorage.setItem('last_city', city);
       set({ weather, news, loading: false, city });
-    } catch (e: any) {
-      console.error(e);
+    } catch (error: unknown) {
+      console.error(error);
+      const err = error as Error & {
+        response?: {
+          data?: {
+            message?: string;
+          };
+        };
+      };
       set({
         loading: false,
         error:
-          e?.response?.data?.message ||
+          err?.response?.data?.message ||
           'Failed to fetch data. Please try again later.'
       });
     }
