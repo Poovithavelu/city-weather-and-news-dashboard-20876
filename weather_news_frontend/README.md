@@ -6,6 +6,12 @@ This is a Vite + React + TypeScript app styled with TailwindCSS.
 
 - Node.js >= 20.19 (or >= 22.12). Vite 7 requires a modern Node LTS. Older Node versions will fail to start the dev server.
 - This project uses ESM ("type": "module") in package.json.
+- The Node.js version is enforced via the `engines` field in `package.json`:
+  - `"engines": { "node": ">=20.19.0" }`
+  Ensure your environment (local or container) uses Node 20.19+ or 22+.
+
+If you are containerizing this app and use a Dockerfile, choose a base image like:
+- `node:20.19-bullseye` or `node:22-bullseye` (or `-alpine` variants as appropriate)
 
 ## Scripts
 
